@@ -20,9 +20,9 @@ typedef struct User {
 user userList[100];
 
 // Prototype Initializing for functions
-int createRandomID();
 currentDate getCurrentDate();
 user takeUserInfo();
+int createRandomID();
 void handleVaccinated();
 void printWarning();
 void PrintNextDoseDate(user users[], int id);
@@ -32,13 +32,13 @@ int main() {
   int i = 0;
   while(i<50) {
     char isInterested;
-    printf("ARE YOU INTERESTED TO GET VACCINE? [Y/N]: ");
+    printf("Are You Interested To Get Vaccine? [Y/N]: ");
 
     scanf(" %c", &isInterested);
 
     if (isInterested == 'Y' || isInterested == 'y') {
       char isVaccinated;
-      printf("ARE YOU VACCINATED? [Y/N]: ");
+      printf("Are You Vaccinated? [Y/N]: ");
       scanf(" %c", &isVaccinated);
 
       if(isVaccinated == 'Y' || isVaccinated == 'y') {
@@ -51,7 +51,7 @@ int main() {
       printWarning();
       return 0;
     } else {
-      printf("PLEASE GIVE VALID INFO\nTHANK YOU!\n");
+      printf("Please Give Valid Info\nThank You!\n");
     }
     i++;
   }
@@ -98,15 +98,15 @@ void handleVaccinated() {
     int firstDoseid;
     switch(num) {
       case 1:
-        printf("PLEASE GIVE YOUR FIRST DOSE REGISTRATION ID\n");
+        printf("Please Give Your First Dose Registration ID\n");
         scanf("%d", &firstDoseid);
         PrintNextDoseDate(userList, firstDoseid);
         break;
       case 2:
-        printf("THANK YOU FOR TAKING VACCINE!\n");
+        printf("Thank You For Taking Vaccine\n");
         return;
       default:
-        printf("PLEASE GIVE VALID INFO.THANK YOU\n");
+        printf("Please Give Valid Info\nThank You\n");
     }
 }
 
@@ -115,25 +115,25 @@ void PrintNextDoseDate(user users[100], int id) {
   int isUserExists = 0;
   for(i=0; i<100; i++) {
     if(users[i].id == id) {
-      printf("Hi %s! YOUR SECOND VACCINE DOSE DATE WILL BE - %d-%d-%d\n", users[i].name, users[i].date.day, users[i].date.month+1, users[i].date.year);
+      printf("Hi %s! Your Second Vaccine Dose Date Will be: %02d-%02d-%02d\n", users[i].name, users[i].date.day, users[i].date.month+1, users[i].date.year);
       isUserExists = 1;
       return;
     }
   }
   if(!isUserExists) {
-    printf("THERE IS NO USER WITH THIS ID\n");
+    printf("There Is No User With This ID\n");
   }
 }
 
 void handleNewRegistration(user users[], int i) {
-  printf("PLEASE GIVE YOUR INFO FOR NEW REGISTRATION\n");
+  printf("Please Give Your Info For New Registration\n");
   userList[i] = takeUserInfo();
   if (userList[i].gender[0] == 'F' || userList[i].gender[0] == 'f') {
     char isPregnant;
-    printf("ARE YOU PREGNANT? [Y/N]: ");
+    printf("Are You Pregnant? [Y/N]: ");
     scanf(" %c", &isPregnant);
     if(isPregnant == 'Y' || isPregnant == 'y') {
-      printf("SORRY YOU ARE NOT ELIGIBLE TO TAKE VACCINE\n");
+      printf("Sorry Your'e Not Eligible To Take Vaccine\n");
       return;
     }
   }
