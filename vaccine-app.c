@@ -8,6 +8,7 @@ typedef struct CurrentDate {
   int month;
   int year;
 }currentDate;
+
 typedef struct User {
   int id;
   char name[20];
@@ -19,7 +20,7 @@ typedef struct User {
 // Global UserList
 user userList[100];
 
-// Prototype Initializing for functions
+// Prototype for functions
 currentDate getCurrentDate();
 user takeUserInfo();
 int createRandomID();
