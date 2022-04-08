@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<time.h>
 
+// Structures
 typedef struct CurrentDate {
   int day;
   int month;
@@ -23,36 +24,40 @@ int createRandomID();
 currentDate getCurrentDate();
 user takeUserInfo();
 void handleVaccinated();
+void printWarning();
 void PrintNextDoseDate(user users[], int id);
-void handleRegistration(user users[], int i);
+void handleNewRegistration(user users[], int i);
 
 int main() {
   int i = 0;
-  while(i<100) {
+  while(i<50) {
     char isInterested;
-    printf("Are You interested to get vaccine? [Y/N]: ");
+    printf("ARE YOU INTERESTED TO GET VACCINE? [Y/N]: ");
 
     scanf(" %c", &isInterested);
 
     if (isInterested == 'Y' || isInterested == 'y') {
       char isVaccinated;
-      printf("Are You Vaccinated? [Y/N]: ");
+      printf("ARE YOU VACCINATED? [Y/N]: ");
       scanf(" %c", &isVaccinated);
 
       if(isVaccinated == 'Y' || isVaccinated == 'y') {
         handleVaccinated();
       } else {
-        handleRegistration(userList, i);
+        handleNewRegistration(userList, i);
       }
 
     } else if (isInterested == 'N' || isInterested == 'n') {
-      printf("\033[1;31m");
-      printf("Take vaccine is must.You should take it as soon as possible.\n");
+      printWarning();
       return 0;
+    } else {
+      printf("PLEASE GIVE VALID INFO\nTHANK YOU!\n");
     }
+    i++;
   }
   return 0;
 }
+
 
 // Utility Functions
 int createRandomID() {
@@ -93,7 +98,7 @@ void handleVaccinated() {
     int firstDoseid;
     switch(num) {
       case 1:
-        printf("Please Give Your First Dose Registration ID\n");
+        printf("PLEASE GIVE YOUR FIRST DOSE REGISTRATION ID\n");
         scanf("%d", &firstDoseid);
         PrintNextDoseDate(userList, firstDoseid);
         break;
@@ -110,7 +115,7 @@ void PrintNextDoseDate(user users[100], int id) {
   int isUserExists = 0;
   for(i=0; i<100; i++) {
     if(users[i].id == id) {
-      printf("Hi %s! Your second Vaccine Dose Date Will be: %d-%d-%d\n", users[i].name, users[i].date.day, users[i].date.month+1, users[i].date.year);
+      printf("Hi %s! YOUR SECOND VACCINE DOSE DATE WILL BE - %d-%d-%d\n", users[i].name, users[i].date.day, users[i].date.month+1, users[i].date.year);
       isUserExists = 1;
       return;
     }
@@ -120,21 +125,28 @@ void PrintNextDoseDate(user users[100], int id) {
   }
 }
 
-void handleRegistration(user users[], int i) {
+void handleNewRegistration(user users[], int i) {
+  printf("PLEASE GIVE YOUR INFO FOR NEW REGISTRATION\n");
   userList[i] = takeUserInfo();
   if (userList[i].gender[0] == 'F' || userList[i].gender[0] == 'f') {
     char isPregnant;
-    printf("Are You Pregnant? [Y/N]: ");
+    printf("ARE YOU PREGNANT? [Y/N]: ");
     scanf(" %c", &isPregnant);
     if(isPregnant == 'Y' || isPregnant == 'y') {
       printf("SORRY YOU ARE NOT ELIGIBLE TO TAKE VACCINE\n");
       return;
     }
   }
-  printf("Thank you for completing First Dose Vaccine Registratione ✅\n");
+  printf("✅ Thank you for completing First Dose Vaccine Registration\n");
   printf("\033[0;33m");
   printf("Please Remember your ID\n");
-  printf("\033[0m");
+  printf("\033[0;32m");
   printf("Here is Your Registration Info");
   printf("\nID: %d \nName: %s \nAge: %d \nGender: %s \nDate: %02d-%02d-%02d\n", userList[i].id, userList[i].name, userList[i].age, userList[i].gender, userList[i].date.day, userList[i].date.month, userList[i].date.year);
+  printf("\033[0m");
+}
+
+void printWarning() {
+  printf("\033[0;33m");
+  printf("Taking vaccine is must.You should take it as soon as possible.\n");
 }
