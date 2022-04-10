@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include<time.h>
 
 // Structures
@@ -11,9 +12,10 @@ typedef struct CurrentDate {
 
 typedef struct User {
   int id;
-  char name[20];
+  char name[30];
   int age;
   char gender[10];
+  char vaccineCenter[50];
   currentDate date;
 }user;
 
@@ -23,18 +25,19 @@ user userList[100];
 // Prototype for functions
 currentDate getCurrentDate();
 user takeUserInfo();
-int createRandomID();
+int createRandomID(int limit);
 void handleVaccinated();
 void printWarning();
-void PrintNextDoseDate(user users[], int id);
+void printVaccineCard(int i);
+void PrintNextDoseInfo(user users[], int id);
 void handleNewRegistration(user users[], int i);
+const char *createVaccineCenter();
 
 int main() {
   int i = 0;
   while(i<50) {
     char isInterested;
     printf("Are You Interested To Get Vaccine? [Y/N]: ");
-
     scanf(" %c", &isInterested);
 
     if (isInterested == 'Y' || isInterested == 'y') {
@@ -61,9 +64,9 @@ int main() {
 
 
 // Utility Functions
-int createRandomID() {
+int createRandomID(int limit) {
   srand(time(0));
-  int randomId = rand() % 500;
+  int randomId = rand() % limit;
   return randomId;
 }
 
@@ -86,37 +89,40 @@ user takeUserInfo() {
   scanf("%d", &singleUser.age);
   printf("Enter Your Gender: ");
   scanf(" %[^\n]%*c", singleUser.gender);
-  singleUser.id = createRandomID();
+  strcpy(singleUser.vaccineCenter, createVaccineCenter());
+  singleUser.id = createRandomID(500);
   singleUser.date = getCurrentDate();
   return singleUser;
 }
 
 void handleVaccinated() {
   int num;
-    printf("PRESS 1 IF YOU HAVE COMPLETED FIRST DOSE\n");
-    printf("PRESS 2 IF YOU HAVE COMPLETED ALL VACCINE\n");
-    scanf("%d", &num);
-    int firstDoseid;
-    switch(num) {
-      case 1:
-        printf("Please Give Your First Dose Registration ID\n");
-        scanf("%d", &firstDoseid);
-        PrintNextDoseDate(userList, firstDoseid);
-        break;
-      case 2:
-        printf("Thank You For Taking Vaccine\n");
-        return;
-      default:
-        printf("Please Give Valid Info\nThank You\n");
-    }
+  printf("PRESS 1 IF YOU HAVE COMPLETED FIRST DOSE\n");
+  printf("PRESS 2 IF YOU HAVE COMPLETED ALL DOSE\n");
+  scanf("%d", &num);
+  int firstDoseid;
+  switch(num) {
+    case 1:
+      printf("Please Give Your First Dose Registration ID\n");
+      scanf("%d", &firstDoseid);
+      PrintNextDoseInfo(userList, firstDoseid);
+      break;
+    case 2:
+      printf("Thank You For Taking Vaccine\n");
+      return;
+    default:
+      printf("Please Give Valid Info\nThank You\n");
+  }
 }
 
-void PrintNextDoseDate(user users[100], int id) {
+void PrintNextDoseInfo(user users[100], int id) {
   int i=0;
   int isUserExists = 0;
   for(i=0; i<100; i++) {
     if(users[i].id == id) {
-      printf("Hi %s! Your Second Vaccine Dose Date Will be: %02d-%02d-%02d\n", users[i].name, users[i].date.day, users[i].date.month+1, users[i].date.year);
+      printf("Hi %s!", users[i].name);
+      printf("\nSecond Dose Date: %02d-%02d-%02d",  users[i].date.day, users[i].date.month+1, users[i].date.year);
+      printf("\nVaccination Center: %s\n", users[i].vaccineCenter);
       isUserExists = 1;
       return;
     }
@@ -138,16 +144,43 @@ void handleNewRegistration(user users[], int i) {
       return;
     }
   }
-  printf("✅ Thank you for completing First Dose Vaccine Registration\n");
-  printf("\033[0;33m");
-  printf("Please Remember your ID\n");
-  printf("\033[0;32m");
-  printf("Here is Your Registration Info");
-  printf("\nID: %d \nName: %s \nAge: %d \nGender: %s \nDate: %02d-%02d-%02d\n", userList[i].id, userList[i].name, userList[i].age, userList[i].gender, userList[i].date.day, userList[i].date.month, userList[i].date.year);
-  printf("\033[0m");
+  printVaccineCard(i);
 }
 
 void printWarning() {
   printf("\033[0;33m");
   printf("Taking vaccine is must.You should take it as soon as possible.\n");
+}
+
+const char *createVaccineCenter() {
+  char hospitals[10][50] = {
+    "Kurmitola General Hospital",
+    "DNCC Hospital",
+    "Kuwait Bangladesh Friendship Hospital",
+    "UTPS Hospital",
+    "Dhaka Medical College",
+    "Dhaka Dental College",
+    "Dhaka Infectious Diseases Hospital",
+    "Uttara Crescent Hospital",
+    "Combined Military Hospital(CMH)",
+    "Nagor Matri Sadon"
+  };
+  int hospitalIndex = createRandomID(10);
+  char *hospitalPtr = hospitals[hospitalIndex];
+  return hospitalPtr;
+}
+
+void printVaccineCard(int i) {
+  printf("✅ Thank you for completing First Dose Vaccine Registration\n");
+  printf("\033[0;33m");
+  printf("Please Remember your ID\n");
+  printf("\033[0;32m");
+  printf("Here is Your Registration Info");
+  printf("\nID: %d", userList[i].id);
+  printf("\nName: %s", userList[i].name);
+  printf("\nAge: %d", userList[i].age);
+  printf("\nGender: %s", userList[i].gender);
+  printf("\nDate: %02d-%02d-%02d", userList[i].date.day, userList[i].date.month, userList[i].date.year);
+  printf("\nVaccination Center: %s\n", userList[i].vaccineCenter);
+  printf("\033[0m");
 }
