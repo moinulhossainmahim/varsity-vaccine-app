@@ -1,0 +1,109 @@
+                NAME: MOINUL HOSSAIN
+                ID: 04210301606
+                COURSE TEACHER: ASHRAF KHAN CHOWDHURY
+
+
+1. Create a function to take input of an array and also print the odd values of the array.
+
+#include<stdio.h>
+
+void printOdd() {
+  int n, i=0;
+  printf("Enter the amount of numbers: ");
+  scanf("%d", &n);
+  int numbers[n];
+  printf("Enter %d numbers: ", n);
+  for(i=0; i<n; i++) {
+    scanf("%d", &numbers[i]);
+  }
+  printf("Odd Values from these numbers is: ");
+  for(i=0; i<n; i++) {
+    if(numbers[i]%2 != 0) {
+      printf("%d ", numbers[i]);
+    }
+  }
+}
+
+int main() {
+  printOdd();
+  return 0;
+}
+
+
+2. Create a function to pass a structure using call by reference.
+
+#include<stdio.h>
+
+typedef struct Teacher {
+  char name[30];
+  int age;
+  char gender[20];
+  char department[30];
+}teacher;
+
+void printTeacherInfo(teacher *t) {
+  printf("Name: %s", t->name);
+  printf("\nAge: %d", t->age);
+  printf("\nGender: %s", t->gender);
+  printf("\nDepartment: %s\n", t->department);
+}
+
+int main() {
+  teacher t;
+  teacher *ptr = &t;
+  printf("Enter Teacher Name: ");
+  scanf(" %[^\n]%*c", t.name);
+  printf("Enter Teacher Gender: ");
+  scanf(" %[^\n]%*c", t.gender);
+  printf("Enter Department Name: ");
+  scanf(" %[^\n]%*c", t.department);
+  printf("Enter Age: ");
+  scanf("%d", &t.age);
+  printTeacherInfo(ptr);
+  return 0;
+}
+
+
+3. Write a program in C to Calculate the length of the string using a pointer.
+
+#include<stdio.h>
+
+int main() {
+  char str[50];
+  int stringLengthCounter = 0;
+  char *ptr = str;
+  printf("Enter a string of 50 sizes: " );
+  scanf(" %[^\n]%*c", str);
+  while(*ptr != '\0') {
+    stringLengthCounter++;
+    ptr++;
+  }
+  printf("Size of this string is: %d\n", stringLengthCounter);
+  return 0;
+}
+
+
+4. Write a program in C to count a number of words in a file.
+
+#include<stdio.h>
+
+int main() {
+  int wordCounter = 0;
+  FILE *fptr;
+  char fName[20];
+  char str;
+  printf("Enter File Name: ");
+  scanf("%s", fName);
+  fptr = fopen(fName, "r");
+  str=fgetc(fptr);
+  while(str != EOF) {
+    if(str == ' ' || str == '\n' || str == '\0' || str == '\t') {
+      wordCounter++;
+    }
+    str=fgetc(fptr);
+  }
+  fclose(fptr);
+  printf("Number of Words in this file is: %d\n", wordCounter);
+  return 0;
+}
+

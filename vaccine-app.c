@@ -163,7 +163,7 @@ const char *createVaccineCenter() {
     "Dhaka Infectious Diseases Hospital",
     "Uttara Crescent Hospital",
     "Combined Military Hospital(CMH)",
-    "Nagor Matri Sadon"
+    "Bangladesh Shishu Hospital and Institute"
   };
   int hospitalIndex = createRandomID(10);
   char *hospitalPtr = hospitals[hospitalIndex];
